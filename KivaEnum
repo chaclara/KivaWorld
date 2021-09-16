@@ -1,0 +1,4 @@
+//Kiva objects can perform actions such as moving around and picking and dropping items. We allow users in our program to enter 1 letter representations of these moves ('F', 'R', 'L', 'T', or 'D'), so we need a way to map each action to a particular keyboard key.
+Referring to the class diagram above, you'll do this by creating a new KivaCommand enum for the actions that the robot can perform. The enum will use values that correspond to particular keyboard characters. That way the RemoteControl class can map a char input key to a KivaCommand enum value.
+In order to create an enum in BlueJ, click the 'New Class...' button. Enter the name of your enum, leave the Class Language as Java, and then select 'Enum' from the options for Class Type. Click 'OK' to create your enum.
+Test this by creating a KivaCommandTester class. Create one test method per command and test that when you run each method you get the expected output. //
