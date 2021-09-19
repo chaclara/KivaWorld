@@ -1,0 +1,58 @@
+We will start by creating the class, adding its instance variables, and writing the getter methods and constructors. 
+Note there are two constructors for this class, and you must implement both of them. 
+One of them instantiates a Kiva object and sets the location of the Kiva robot from the provided FloorMap; 
+the other instantiates a Kiva object and sets the location of the Kiva robot from a Point (remember to import edu.duke.Point).
+Both constructors should initialize the state with the robot facing up, not carrying any pod, and not having successfully dropped a pod. 
+Ignore motorLifetime for now; we'll cover that later. Remember the getters for booleans follow the naming convention described above, isSuccessfullyDropped() and isCarryingPod().
+Test the Kiva constructors by creating a KivaConstructorTest class. First, we will create a FloorMap that we can pass to our Kiva constructors.
+We can do this by using the provided FloorMap(String map) constructor and the defaultLayout String in the example below.
+Create a test method for each Kiva constructor, using the same test FloorMap for each, and checking that the resulting Kiva robot location matches the input.
+(We don't write separate tests for “trivial” getters that contain no logic.) Here's the test for the constructor using a single argument:
+
+import edu.duke.Point; 
+
+public class KivaConstructorTest { 
+    String defaultLayout = "" 
+                            + "-------------\n" 
+                            + "        P   *\n"
+                            + "   **       *\n"
+                            + "   **       *\n"
+                            + "  K       D *\n"
+                            + " * * * * * **\n"
+                            + "-------------\n";
+
+    FloorMap defaultMap = new FloorMap(defaultLayout);
+
+    public void testSingleArgumentConstructor() { 
+        // GIVEN 
+        // The default map we defined earlier 
+
+        // WHEN 
+        // We create a Kiva with the single-argument constructor         
+        Kiva kiva = new Kiva(defaultMap); 
+
+        // THEN 
+        // The initial Kiva location is (2, 4) 
+        Point initialLocation = kiva.getCurrentLocation();
+        Point expectedLocation = new Point(2, 4);
+        if (sameLocation(initialLocation, expectedLocation)) { 
+            System.out.println("testSingleArgumentConstructor SUCCESS"); 
+        } else { 
+            System.out.println(String.format( "testSingleArgumentConstructor FAIL: %s != (2,4)!", initialLocation)); 
+        } 
+    } 
+
+    private boolean sameLocation(Point a, Point b) { 
+        return a.getX() == b.getX() && a.getY() == b.getY(); 
+    } 
+
+    // For you: create a test for the constructor taking two arguments. 
+}
+Test Cases
+Test: testSingleArgumentConstructor()
+Input: Pass the constructor the default map as the argument, then validate that the currentLocation of the Kiva is as expected.
+Output: “testSingleArgumentConstructor SUCCESS” is printed to the console.
+
+Test: testTwoArgumentConstructor()
+Input: Pass the constructor the default map and a location of (5, 6) as the arguments, then validate that the currentLocation of the Kiva is as expected.
+Output: “testTwoArgumentConstructor SUCCESS” is printed to the console.​
