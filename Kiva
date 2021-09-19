@@ -1,0 +1,23 @@
+/**
+ * This class should hold the state and logic of a robot: where it is, which way it's facing , whether it's carrying a pod right now, and whether it has successfully dropped the pod.
+ * A Kiva always starts facing UP(one of our provided FacingDirections). not carrying a pod and not having successfully dropped the pod. the move() method prerforms the logic for 
+ * any KivaCommand, and the isSuccessfullDrop() method indicates whether the previous command dropped the pod on the drop zone. 
+ * 
+ * 
+ * @author (Clara Chandler) 
+ * @version (09/16/2020)
+ */
+import edu.duke.Point;
+
+public class Kiva {
+
+    public String Kiva (String map){
+    
+        String result = " ";
+        FacingDirection direction  = FacingDirection.UP;
+        Point Up = direction.getDelta();
+        
+        
+        return result;
+    }
+}
