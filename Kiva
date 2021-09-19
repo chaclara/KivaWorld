@@ -11,13 +11,24 @@ import edu.duke.Point;
 
 public class Kiva {
 
-    public String Kiva (String map){
+    public Kiva (String map){
     
-        String result = " ";
+        FloorMap floor = new FloorMap(map);
         FacingDirection direction  = FacingDirection.UP;
         Point Up = direction.getDelta();
+        Point location = floor.getInitialKivaLocation();
         
-        
-        return result;
+       
     }
+    
+    public Kiva(String map, Point point){
+        
+        FloorMap floor = new FloorMap(map);
+        FacingDirection direction  = FacingDirection.UP;
+        Point Up = direction.getDelta();
+        Point location = point;
+    
+    
+    }
+    
 }
