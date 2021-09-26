@@ -50,19 +50,24 @@ public class Kiva {
         
     }
     public boolean isSuccessfullyDropped(Kiva kiva){
-        if(kivaLocation == dropZoneLocation){
-            return true;
+        boolean isDropped = true;
+        boolean isNotDropped = false;
+        if(isCarryingPod(kiva)){
+        }
+        if(podLocation == dropZoneLocation){
+            return isDropped;
         }else{
-            return false;
+            return isNotDropped;
         }
     }
     
     public boolean isCarryingPod(Kiva kiva){
+       boolean isCarrying = true;
+       boolean isNotCarrying = false;
        if(kivaLocation == podLocation){
-            return true;
+            return isCarrying;
         }else{
-            return false;
+            return isNotCarrying;
         }
-        
     }
 }
