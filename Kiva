@@ -11,24 +11,58 @@ import edu.duke.Point;
 
 public class Kiva {
 
-    public Kiva (String map){
+    FloorMap floor;
+    Point kivaLocation;
+    Point podLocation;
+    Point dropZoneLocation;
     
-        FloorMap floor = new FloorMap(map);
-        FacingDirection direction  = FacingDirection.UP;
-        Point Up = direction.getDelta();
-        Point location = floor.getInitialKivaLocation();
-        
+    public Kiva (FloorMap floor){
        
-    }
-    
-    public Kiva(String map, Point point){
-        
-        FloorMap floor = new FloorMap(map);
+        this.floor = floor;
+        /* Declare a variable for the direction enum UP */
         FacingDirection direction  = FacingDirection.UP;
+        /* Returns the location of the up direction as a point */
         Point Up = direction.getDelta();
-        Point location = point;
-    
-    
+        /* Returns the location of the Kiva robot as a point */
+        kivaLocation = floor.getInitialKivaLocation();
+        //FloorMapObject pod = FloorMapObject.POD;
+        /* Creates a point to hold the pod location for the floor map */
+        podLocation = floor.getPodLocation();
+        dropZoneLocation = floor.getDropZoneLocation(); 
+     
     }
     
+    public Kiva (FloorMap floor, Point point){
+      
+        /* Declare a variable for the direction enum UP */
+        FacingDirection direction  = FacingDirection.UP;
+        /* Returns the location of the up direction as a point */
+        Point Up = direction.getDelta();
+        /*Sets the location of the Kiva Robot at the given point*/
+        kivaLocation = point;
+        /* Creates a point to hold the pod location for the floor map */
+        podLocation = floor.getPodLocation();
+        dropZoneLocation = floor.getDropZoneLocation(); 
+    }
+    public Point getCurrentLocation(){
+        
+        return kivaLocation;
+        
+    }
+    public boolean isSuccessfullyDropped(Kiva kiva){
+        if(kivaLocation == dropZoneLocation){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public boolean isCarryingPod(Kiva kiva){
+       if(kivaLocation == podLocation){
+            return true;
+        }else{
+            return false;
+        }
+        
+    }
 }
