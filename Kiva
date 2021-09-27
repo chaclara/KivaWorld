@@ -17,6 +17,8 @@ public class Kiva {
     KivaCommand command;
     FacingDirection directionFacing;
     
+    //Constructor that instantiates a Kiva with the provided Floor Map
+    //A Kiva always starts facing UP. not carrying a pod and not having successfully dropped the pod.
     public Kiva (FloorMap floor){
        
         this.floor = floor;
@@ -32,7 +34,8 @@ public class Kiva {
         this.dropZoneLocation = floor.getDropZoneLocation(); 
      
     }
-    
+     //Constructor that instantiates a Kiva with the provided Floor Map and given point
+    //A Kiva always starts facing UP. not carrying a pod and not having successfully dropped the pod.
     public Kiva (FloorMap floor, Point point){
       
         /* Declare a variable for the direction enum UP */
@@ -46,16 +49,19 @@ public class Kiva {
         this.dropZoneLocation = floor.getDropZoneLocation(); 
     }
     
+    //Method to return the direction the Kiva robot is facing
     public FacingDirection getDirectionFacing(){
         
         return directionFacing;
     }
     
+    //Method to return the current location of the Kiva robot
     public Point getCurrentLocation(){
         
         return kivaLocation;
         
     }
+    //method used to determine if the pod has been successfully dropped by the Kiva Robot
     public boolean isSuccessfullyDropped(){
         boolean isDropped = true;
         boolean isNotDropped = false;
@@ -67,7 +73,7 @@ public class Kiva {
             return isNotDropped;
         }
     }
-    
+    //method used to determine if the Kiva is carrying a pod
     public boolean isCarryingPod(){
        boolean isCarrying = true;
        boolean isNotCarrying = false;
@@ -78,7 +84,7 @@ public class Kiva {
         }
         
     }
-    
+    //method used to update Kiva location after it is told to move forward
     public void move(KivaCommand command){
         int x;
         int y;
