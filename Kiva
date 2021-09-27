@@ -10,49 +10,56 @@
 import edu.duke.Point;
 
 public class Kiva {
-
-    FloorMap floor;
+ FloorMap floor;
     Point kivaLocation;
     Point podLocation;
     Point dropZoneLocation;
+    KivaCommand command;
+    FacingDirection directionFacing;
     
     public Kiva (FloorMap floor){
        
         this.floor = floor;
         /* Declare a variable for the direction enum UP */
-        FacingDirection direction  = FacingDirection.UP;
+        this.directionFacing  = FacingDirection.UP;
         /* Returns the location of the up direction as a point */
-        Point Up = direction.getDelta();
+        Point Up = directionFacing.getDelta();
         /* Returns the location of the Kiva robot as a point */
-        kivaLocation = floor.getInitialKivaLocation();
+        this.kivaLocation = floor.getInitialKivaLocation();
         //FloorMapObject pod = FloorMapObject.POD;
         /* Creates a point to hold the pod location for the floor map */
-        podLocation = floor.getPodLocation();
-        dropZoneLocation = floor.getDropZoneLocation(); 
+        this.podLocation = floor.getPodLocation();
+        this.dropZoneLocation = floor.getDropZoneLocation(); 
      
     }
     
     public Kiva (FloorMap floor, Point point){
       
         /* Declare a variable for the direction enum UP */
-        FacingDirection direction  = FacingDirection.UP;
+        this.directionFacing  = FacingDirection.UP;
         /* Returns the location of the up direction as a point */
-        Point Up = direction.getDelta();
+        Point Up = directionFacing.getDelta();
         /*Sets the location of the Kiva Robot at the given point*/
-        kivaLocation = point;
+        this.kivaLocation = point;
         /* Creates a point to hold the pod location for the floor map */
-        podLocation = floor.getPodLocation();
-        dropZoneLocation = floor.getDropZoneLocation(); 
+        this.podLocation = floor.getPodLocation();
+        this.dropZoneLocation = floor.getDropZoneLocation(); 
     }
+    
+    public FacingDirection getDirectionFacing(){
+        
+        return directionFacing;
+    }
+    
     public Point getCurrentLocation(){
         
         return kivaLocation;
         
     }
-    public boolean isSuccessfullyDropped(Kiva kiva){
+    public boolean isSuccessfullyDropped(){
         boolean isDropped = true;
         boolean isNotDropped = false;
-        if(isCarryingPod(kiva)){
+        if(isCarryingPod()){
         }
         if(podLocation == dropZoneLocation){
             return isDropped;
@@ -61,7 +68,7 @@ public class Kiva {
         }
     }
     
-    public boolean isCarryingPod(Kiva kiva){
+    public boolean isCarryingPod(){
        boolean isCarrying = true;
        boolean isNotCarrying = false;
        if(kivaLocation == podLocation){
@@ -69,5 +76,17 @@ public class Kiva {
         }else{
             return isNotCarrying;
         }
+        
+    }
+    
+    public void move(KivaCommand command){
+        int x;
+        int y;
+        if(command == KivaCommand.FORWARD){
+        x = kivaLocation.getX();
+        y = kivaLocation.getY() - 1;
+        this.kivaLocation = new Point(x, y);
+    }
+        
     }
 }
