@@ -10,89 +10,154 @@
 import edu.duke.Point;
 
 public class Kiva {
- FloorMap floor;
+    
+    FloorMap floor;
     Point kivaLocation;
     Point podLocation;
     Point dropZoneLocation;
     KivaCommand command;
     FacingDirection directionFacing;
+    boolean isCarryingPod;
+    boolean isSuccessfullyDropped;
     
-    //Constructor that instantiates a Kiva with the provided Floor Map
-    //A Kiva always starts facing UP. not carrying a pod and not having successfully dropped the pod.
     public Kiva (FloorMap floor){
        
-        this.floor = floor;
-        /* Declare a variable for the direction enum UP */
+        this.Kivaconstructor(floor, floor.getInitialKivaLocation());
         this.directionFacing  = FacingDirection.UP;
-        /* Returns the location of the up direction as a point */
-        Point Up = directionFacing.getDelta();
-        /* Returns the location of the Kiva robot as a point */
-        this.kivaLocation = floor.getInitialKivaLocation();
-        //FloorMapObject pod = FloorMapObject.POD;
-        /* Creates a point to hold the pod location for the floor map */
-        this.podLocation = floor.getPodLocation();
-        this.dropZoneLocation = floor.getDropZoneLocation(); 
-     
-    }
-     //Constructor that instantiates a Kiva with the provided Floor Map and given point
-    //A Kiva always starts facing UP. not carrying a pod and not having successfully dropped the pod.
-    public Kiva (FloorMap floor, Point point){
-      
-        /* Declare a variable for the direction enum UP */
-        this.directionFacing  = FacingDirection.UP;
-        /* Returns the location of the up direction as a point */
-        Point Up = directionFacing.getDelta();
-        /*Sets the location of the Kiva Robot at the given point*/
-        this.kivaLocation = point;
-        /* Creates a point to hold the pod location for the floor map */
-        this.podLocation = floor.getPodLocation();
-        this.dropZoneLocation = floor.getDropZoneLocation(); 
     }
     
-    //Method to return the direction the Kiva robot is facing
+    public Kiva (FloorMap floor, Point point){
+  
+        this.Kivaconstructor(floor, point);
+        /* Declare a variable for the direction enum UP */
+        this.directionFacing  = FacingDirection.UP;
+        
+    }
+    
+    private void Kivaconstructor(FloorMap floor, Point point){
+        this.floor = floor;
+        this.kivaLocation = point;
+        this.podLocation = floor.getPodLocation();
+        this.dropZoneLocation = floor.getDropZoneLocation();
+        this.isCarryingPod = false;
+        this.isSuccessfullyDropped = false;
+    }
     public FacingDirection getDirectionFacing(){
         
-        return directionFacing;
+        return this.directionFacing;
     }
     
-    //Method to return the current location of the Kiva robot
     public Point getCurrentLocation(){
         
-        return kivaLocation;
+        return this.kivaLocation;
         
     }
-    //method used to determine if the pod has been successfully dropped by the Kiva Robot
+    private void isSuccessfulDropped(){
+       
+        if(this.podLocation == this.dropZoneLocation){
+            this.isSuccessfullyDropped = true;
+        }
+    }
     public boolean isSuccessfullyDropped(){
-        boolean isDropped = true;
-        boolean isNotDropped = false;
-        if(isCarryingPod()){
-        }
-        if(podLocation == dropZoneLocation){
-            return isDropped;
-        }else{
-            return isNotDropped;
-        }
+        return this.isSuccessfullyDropped;
     }
-    //method used to determine if the Kiva is carrying a pod
-    public boolean isCarryingPod(){
-       boolean isCarrying = true;
-       boolean isNotCarrying = false;
-       if(kivaLocation == podLocation){
-            return isCarrying;
-        }else{
-            return isNotCarrying;
+    
+    private void isPodPickedUp(){
+        //logic to determine if pod picked up
+        
+        
+        if(this.kivaLocation == this.podLocation){
+            this.isCarryingPod = true;     
         }
+       
+    }
+    public boolean isCarryingPod(){
+       
+        return this.isCarryingPod;
         
     }
-    //method used to update Kiva location after it is told to move forward
-    public void move(KivaCommand command){
+    
+    private void turnLeft(){
+      
+        if(this.directionFacing == FacingDirection.UP){
+           this.directionFacing = FacingDirection.LEFT;
+        }
+    
+        else if(this.directionFacing == FacingDirection.LEFT){
+        
+        this.directionFacing = FacingDirection.DOWN;
+        }
+        else if(this.directionFacing == FacingDirection.DOWN){
+        this.directionFacing = FacingDirection.RIGHT;
+        }
+        else if(this.directionFacing == FacingDirection.RIGHT){
+        this.directionFacing = FacingDirection.UP;
+        }
+    }
+    
+    
+    private void turnRight(){
+        
+        if(this.directionFacing == FacingDirection.UP){
+           this.directionFacing = FacingDirection.RIGHT;
+        }
+    
+        else if(this.directionFacing == FacingDirection.RIGHT){
+        
+        this.directionFacing = FacingDirection.DOWN;
+        }
+        else if(this.directionFacing == FacingDirection.DOWN){
+        this.directionFacing = FacingDirection.LEFT;
+        }
+        else if(this.directionFacing == FacingDirection.LEFT){
+        this.directionFacing = FacingDirection.UP;
+        }
+       
+        
+    }
+    
+    private void moveForward(){
         int x;
         int y;
-        if(command == KivaCommand.FORWARD){
+       if(this.directionFacing == FacingDirection.UP){
         x = kivaLocation.getX();
         y = kivaLocation.getY() - 1;
         this.kivaLocation = new Point(x, y);
+       }
+       else if(this.directionFacing == FacingDirection.LEFT){
+        x = kivaLocation.getX() - 1;
+        y = kivaLocation.getY();
+        this.kivaLocation = new Point(x, y);
+       }
+       else if(this.directionFacing == FacingDirection.DOWN){
+        x = kivaLocation.getX();
+        y = kivaLocation.getY() + 1;
+        this.kivaLocation = new Point(x, y);    
+       }
+       else if(this.directionFacing == FacingDirection.RIGHT){
+        x = kivaLocation.getX() + 1;
+        y = kivaLocation.getY();
+        this.kivaLocation = new Point(x, y);    
+       }
     }
         
+    
+   
+    public void move(KivaCommand command){
+        
+        if(command == KivaCommand.FORWARD){
+         moveForward();
+         
+        }
+        
+        else if(command == KivaCommand.LEFT){
+         turnLeft();
+        
+        }
+   
+        else if(command == KivaCommand.RIGHT){
+         turnRight();
+        
+        }
     }
 }
