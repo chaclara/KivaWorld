@@ -15,10 +15,13 @@ public class Kiva {
     Point kivaLocation;
     Point podLocation;
     Point dropZoneLocation;
+    int podPickedUp;
     KivaCommand command;
     FacingDirection directionFacing;
+    FloorMapObject object;
     boolean isCarryingPod;
     boolean isSuccessfullyDropped;
+    boolean isKivaOnFloor;
     
     public Kiva (FloorMap floor){
        
@@ -52,27 +55,37 @@ public class Kiva {
         return this.kivaLocation;
         
     }
-    private void isSuccessfulDropped(){
+   
+    
+    private void dropPod(){
        
-        if(this.podLocation == this.dropZoneLocation){
+        if(this.kivaLocation.getX() == this.dropZoneLocation.getX() && this.kivaLocation.getY() == this.dropZoneLocation.getY() && this.isCarryingPod == true){
             this.isSuccessfullyDropped = true;
+           
+        }else{
+            this.isSuccessfullyDropped = false;
         }
     }
+    
     public boolean isSuccessfullyDropped(){
+        
         return this.isSuccessfullyDropped;
     }
     
-    private void isPodPickedUp(){
+    private void takePod(){
         //logic to determine if pod picked up
-        
-        
-        if(this.kivaLocation == this.podLocation){
-            this.isCarryingPod = true;     
+       if(this.kivaLocation.getX() == this.podLocation.getX() && this.kivaLocation.getY() == this.podLocation.getY()){
+            this.isCarryingPod = true;
+            this.podPickedUp = 1;
+       }else{
+            this.isCarryingPod = false;
+            throw new NoPodException("Can't take nonexistent pod from location " + this.kivaLocation);
         }
        
     }
+    
     public boolean isCarryingPod(){
-       
+      
         return this.isCarryingPod;
         
     }
@@ -139,25 +152,60 @@ public class Kiva {
         y = kivaLocation.getY();
         this.kivaLocation = new Point(x, y);    
        }
-    }
+ 
+            isKivaOnFloor();
+            this.object = floor.getObjectAtLocation(this.kivaLocation);
+            
+       if(this.object == FloorMapObject.OBSTACLE){
+           throw new IllegalMoveException("IllegalMoveException: Can't move onto an obstacle at " + this.kivaLocation);
+            
+           }
+      
+       //if(this.podPickedUp > 0){
+           //if(this.object == FloorMapObject.POD){
+         //throw new IllegalMoveException("IllegalMoveException: Can't take pod while Kiva is carrying a pod" + this.kivaLocation);
         
+       // }
     
+    }
+    private void isKivaOnFloor(){
+        if(this.kivaLocation.getX() < 0 || this.kivaLocation.getY() < 0){
+            throw new IllegalMoveException("IllegalMoveException: Can't move outside of the Floor Map" + this.kivaLocation);
+        }
+        else if(this.kivaLocation.getX() > floor.getMaxColNum() || this.kivaLocation.getY() > floor.getMaxRowNum()){
+             throw new IllegalMoveException("IllegalMoveException: Can't move outside of the Floor Map" + this.kivaLocation);
+        }
+        
+    }
    
     public void move(KivaCommand command){
         
-        if(command == KivaCommand.FORWARD){
-         moveForward();
+       if(command == KivaCommand.FORWARD){
+           moveForward();
          
         }
         
-        else if(command == KivaCommand.LEFT){
-         turnLeft();
+       else if(command == KivaCommand.LEFT){
+           turnLeft();
         
         }
    
-        else if(command == KivaCommand.RIGHT){
-         turnRight();
+       else if(command == KivaCommand.RIGHT){
+           turnRight();
         
+        }
+       
+       takePod();
+       this.podPickedUp = 1;
+       if(command == KivaCommand.TAKE){
+            takePod();
+            this.podPickedUp = 1;
+            
+            
+        }
+        
+       else if(command == KivaCommand.DROP){
+            dropPod();
         }
     }
 }
