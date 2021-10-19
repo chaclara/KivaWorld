@@ -7,6 +7,8 @@ import edu.duke.FileResource;
  * This is starter code that may or may not work. You will need to update the code to
  * complete the project.
  */
+import java.util.Arrays;
+
 public class RemoteControl {
     KeyboardResource keyboardResource;
 
@@ -34,4 +36,26 @@ public class RemoteControl {
         System.out.println("Please enter the directions for the Kiva Robot to take.");
         String directions = keyboardResource.getLine();
         System.out.println("Directions that you typed in: " + directions);
+    }
+        
+    public KivaCommand [] convertToKivaCommands(String userCommands){
+        userCommands = keyboardResource.getLine();
+        int size = userCommands.length();
+        KivaCommand [] kivaCommands = new KivaCommand[size];
+        kivaCommands = KivaCommand.values();
+        char[] kivaValues = new char[size];
+        char com;
+        KivaCommand [] actualCommands = new KivaCommand[size];
+        for (int i = 0; i < size; i++){
+            kivaValues[i] = userCommands.charAt(i);  
+        }
+        int j = 0;
+        for(char c: kivaValues) {
+            com = kivaCommands[j].getDirectionKey();
+             actualCommands[j] = kivaCommands[j];
+            
+            j++;
+        }
+        return actualCommands;
+    }
     }
