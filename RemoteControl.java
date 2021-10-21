@@ -39,23 +39,23 @@ public class RemoteControl {
     }
         
     public KivaCommand [] convertToKivaCommands(String userCommands){
-        userCommands = keyboardResource.getLine();
+        
         int size = userCommands.length();
         KivaCommand [] kivaCommands = new KivaCommand[size];
-        kivaCommands = KivaCommand.values();
-        char[] kivaValues = new char[size];
-        char com;
         KivaCommand [] actualCommands = new KivaCommand[size];
-        for (int i = 0; i < size; i++){
-            kivaValues[i] = userCommands.charAt(i);  
+        kivaCommands = KivaCommand.values();
+        
+   
+       for(int i = 0; i < size; i++){
+           for(KivaCommand command : kivaCommands) {
+               if(userCommands.charAt(i) == command.getDirectionKey()){
+                   actualCommands[i] = command;
+                    
+                }else{
+                    continue; 
+            }throw new IllegalArgumentException("Character does not correspond to command!");
+        
         }
-        int j = 0;
-        for(char c: kivaValues) {
-            com = kivaCommands[j].getDirectionKey();
-             actualCommands[j] = kivaCommands[j];
-            
-            j++;
-        }
-        return actualCommands;
+       return actualCommands;
     }
     }
