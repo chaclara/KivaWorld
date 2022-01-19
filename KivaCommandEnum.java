@@ -3,7 +3,7 @@
  * That way the RemoteControl class can map a char input key to a KivaCommand.
  * 
  * @author Clara Chandler 
- * @version (a version number or a date)
+ * @version (09/16/2020)
  */
 public enum KivaCommand{
 FORWARD('F'),
@@ -20,4 +20,7 @@ private KivaCommand(char value){
 public char getDirectionKey(){
 return this.command;
 }
+
+
 }
+
